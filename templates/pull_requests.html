@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item" aria-current="page"><a href="{% url 'index' %}">Github project</a></li>
+  <li class="breadcrumb-item" aria-current="page"><a href="{% url 'repositories' username %}">{{username}} Repositories</a></li>
+  <li class="breadcrumb-item active" aria-current="page">{{repository_name}} Pull requests</li>
+{% endblock %}
+
+{% block content %}
+  <div class="container mb-5">
+    
+    <table class="table table-striped text-center class="table-primary"">
+      <thead>
+        <tr class="table-primary">
+          <th>
+            Project name
+          </th>
+          <th>
+            Github url
+          </th>
+          <th>
+            Star count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            {{repository_name}}
+          </td>
+          <td>
+            <a href="{{repository.repository_html_url}}">{{repository.repository_html_url}}</a>
+          </td>
+          <td>
+            {{repository.repository_stars}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <form method="POST">
+      {% csrf_token %}
+      {% if is_merged %}
+        <input class="btn btn-primary" type="submit" name="is_merged" value="unmerged pulls">
+      {% else %}
+        <input class="btn btn-primary" type="submit" name="is_merged" value="merged pulls">
+      {% endif %}
+    </form>
+    <table class="table table-striped text-center">
+      <thead>
+        <tr>
+          <th>
+            {% if is_merged %}
+            Merge pull requests
+            {% else %}
+            Unmerged pull requests
+            {% endif %}
+          </th>
+          <th>
+            Comments count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pull in pulls %}
+          <tr>
+            <td>
+              <a href="{{merge_pull.pull_html_url}}">{{pull.pull_html_url}}</a>
+            </td>
+            <td>
+              {{pull.comments_count}}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        {% if pulls.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{pulls.previous_page_number}}">Prev Page</a></li>
+        {% endif %}
+        {% if pulls.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{pulls.next_page_number}}">Next Page</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endblock %}

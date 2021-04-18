@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item" aria-current="page"><a href="{% url 'index' %}">Github project</a></li>
+  <li class="breadcrumb-item active" aria-current="page">{{username}} Repositories</li>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <p class="fs-3">User Projects</p>
+  {% for repository_name in repositories_names %}
+    <a href="{% url 'pulls' username repository_name %}">{{ repository_name }}</a><br>
+  {% endfor %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      {% if repositories_names.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{repositories_names.previous_page_number}}">Prev Page</a></li>
+      {% endif %}
+      {% if repositories_names.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{repositories_names.next_page_number}}">Next Page</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}
