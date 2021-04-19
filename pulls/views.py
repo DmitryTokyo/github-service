@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
+import requests
 
 from github import get_repositories_and_pulls
 
@@ -16,12 +17,25 @@ def index(request):
 
         request.session[username] = username
         return redirect('repositories', username=username)
+    try:
+        wrong_username = request.session['error']
+        del request.session['error']
+    except KeyError:
+        wrong_username = None
 
-    return render(request, 'index.html')
+    context = {
+        'wrong_username': wrong_username
+    }
+    return render(request, 'index.html', context=context)
 
 
 def get_projects(request, username):
-    user_repositories = get_user_repositories(username)
+    try:
+        user_repositories = get_user_repositories(username)
+    except requests.exceptions.HTTPError:
+        request.session['error'] = username
+        return redirect('/')
+
     cache.set(f'{username}_merge_status', True)
     
     repositories_names = [user_repository for user_repository in user_repositories]

@@ -8,7 +8,12 @@
   <form method="POST">
     {% csrf_token %}
     <div class="mb-3">
-      <label for="Username" class="form-label"><p class="fs-3">Github username</p></label>
+      <label for="Username" class="form-label">
+        <p class="fs-3">Github username</p>
+        {% if wrong_username %}
+          <p>This {{wrong_username}} is invalid</p>
+        {% endif %}
+      </label>
       <input type="text" class="form-control" id="Username" name="username" required/>
     </div>
     <button type="submit" class="btn btn-primary">Send</button>
