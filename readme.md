@@ -39,3 +39,7 @@ python manage.py runserver
 ## Использование
 
 В поле ввода вводите имя пользователя на Github и получаете результаты по всем проектам, куда он делал pull requests.
+
+## Резюме
+
+Резюме доступно по ссылке на github [https://dmitrytokyo.github.io/resume/](https://dmitrytokyo.github.io/resume/)
