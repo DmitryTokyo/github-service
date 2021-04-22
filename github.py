@@ -63,8 +63,12 @@ def get_repositories_and_pulls(username):
     return repositories_and_pulls
 
 
-# username = 'DmitryTokyo'
-# info = get_repositories_and_pulls(username)
+def get_user_repositories_and_names(username):
+    if not cache.get(username):
+        user_repositories = get_repositories_and_pulls(username)
+        cache.set(username, user_repositories)
+    else:
+        user_repositories = cache.get(username)
 
-# with open('json/info.json', 'w') as file:
-#     json.dump(info, file)
+    repositories_names = [user_repository for user_repository in user_repositories]
+    return user_repositories, repositories_names
