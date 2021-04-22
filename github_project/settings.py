@@ -65,7 +65,7 @@ WSGI_APPLICATION = 'github_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+        'NAME': 'sqlite.db',
     }
 }
 
