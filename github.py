@@ -4,20 +4,20 @@ from django.conf import settings
 from django.core.cache import cache
 
 
-HEADERS = {
-    'Accept': 'application/vnd.github.preview',
-    'Authorization': f'token {settings.GITHUB_TOKEN}'
-}
+def get_pull_requests(username) -> json:
+    url: str = 'https://api.github.com/search/issues'
 
+    headers = {
+        'Accept': 'application/vnd.github.preview',
+        'Authorization': f'token {settings.GITHUB_TOKEN}'
+    }
 
-def get_pull_requests(username):
-    url = 'https://api.github.com/search/issues'
     payload = {
         'q': f'is:pr author:{username}',
         'per_page': 100,
     }
 
-    response = requests.get(url, headers=HEADERS, params=payload)
+    response = requests.get(url, headers=headers, params=payload)
     response.raise_for_status()
     pull_requests = response.json()['items']
 
@@ -39,14 +39,14 @@ def get_pull_requests(username):
     return user_pull_requests
 
 
-def check_merge(url):
+def check_merge(url) -> bool:
     response = requests.get(f'{url}/merge', headers=HEADERS)
     if response.status_code == 204:
         return True
     return False
 
 
-def get_repositories_and_pulls(username):
+def get_repositories_and_pulls(username) -> json:
     pull_requests = get_pull_requests(username)
     
     repositories_and_pulls = {}
@@ -64,7 +64,7 @@ def get_repositories_and_pulls(username):
     return repositories_and_pulls
 
 
-def get_user_repositories_and_names(username):
+def get_user_repositories_and_names(username) -> tuple[json, str]:
     if not cache.get(username):
         user_repositories = get_repositories_and_pulls(username)
         cache.set(username, user_repositories)
