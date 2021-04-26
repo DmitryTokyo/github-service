@@ -82,7 +82,7 @@ class PullsView(View):
 
     def post(self, request, username, repository_name):
         if request.POST['is_merged'] == 'unmerged pulls':
-                is_merged = False
+            is_merged = False
         if request.POST['is_merged'] == 'merged pulls':
             is_merged = True
         cache.set(f'{username}_merge_status', is_merged, 3600)
