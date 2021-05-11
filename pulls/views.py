@@ -78,7 +78,6 @@ class PullsView(View):
             'is_merged': is_merged
         }
         return render(request, 'pull_requests.html', context=context)
-    
 
     def post(self, request, username, repository_name):
         if request.POST['is_merged'] == 'unmerged pulls':
