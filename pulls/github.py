@@ -40,18 +40,26 @@ def get_pull_requests(username) -> json:
 
 
 def check_merge(url) -> bool:
-    response = requests.get(f'{url}/merge', headers=HEADERS)
+    headers = {
+        'Accept': 'application/vnd.github.preview',
+        'Authorization': f'token {settings.GITHUB_TOKEN}'
+    }
+    response = requests.get(f'{url}/merge', headers=headers)
     if response.status_code == 204:
         return True
     return False
 
 
 def get_repositories_and_pulls(username) -> json:
+    headers = {
+        'Accept': 'application/vnd.github.preview',
+        'Authorization': f'token {settings.GITHUB_TOKEN}'
+    }
     pull_requests = get_pull_requests(username)
     
     repositories_and_pulls = {}
     for repository_url, pulls_info in pull_requests.items():
-        response = requests.get(repository_url, headers=HEADERS)
+        response = requests.get(repository_url, headers=headers)
         response.raise_for_status()
 
         repository = response.json()
