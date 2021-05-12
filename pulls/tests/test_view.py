@@ -44,3 +44,4 @@ class TestViews:
         repositories_url = reverse('repositories', kwargs={'username': ';;;;;'})
         response = self.client.get(repositories_url)
         assert response.status_code == 302
+        assertRedirects(response, self.index_url)
