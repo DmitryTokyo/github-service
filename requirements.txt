@@ -34,8 +34,4 @@ flake8-printf-formatting==1.1.2
 flake8-multiline-containers==0.0.17
 flake8-absolute-import==1.0
 flake8-simplify==0.13.0
-<<<<<<< HEAD
 flake8-functions-names==0.0.5
-=======
-flake8-functions-names==0.0.5
->>>>>>> 8a1b0e042d4b8c8d7bb971878890bd97871473dd
