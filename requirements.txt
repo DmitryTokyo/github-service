@@ -1,7 +1,12 @@
 requests==2.25.1
 Django==3.2
 django-environ==0.4.5
+django-configurations==2.2
+django-waffle==2.1.0
+deal==4.6.0
 pytest-django==4.2.0
+wheel==0.36.2
+celery==5.1.2
 
 pydocstyle==5.1.1
 flake8==3.8.4

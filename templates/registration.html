@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'index' %}">Github project</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Registration</li>
+{% endblock %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">{{ form.username.label }}</label>
+            {{ form.username }}
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">{{ form.email.label }}</label>
+            {{ form.email }}
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ form.password1.label }}</label>
+            {{ form.password1 }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ form.password2.label }}</label>
+            {{ form.password2 }}
+        </div>
+        <button type="submit" class="btn btn-primary">Registrate</button>
+    </form>
+{% endblock %}

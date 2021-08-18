@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from pulls.models import GithubUser, SearchResult
+
+
+@admin.register(GithubUser)
+class GithubUserAdmin(admin.ModelAdmin):
+    model = GithubUser
+
+
+@admin.register(SearchResult)
+class SearchResultAdmin(admin.ModelAdmin):
+    model = SearchResult

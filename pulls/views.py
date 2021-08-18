@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage
 from django.views.generic import View, DetailView
+from django.contrib import messages
 import requests
 
-import os
 from pulls.github import get_user_repositories_and_names
+from .forms import CreateUserForm
 
 
 class IndexView(View):
@@ -89,4 +90,24 @@ class PullsView(View):
         return redirect('pulls', username=username, repository_name=repository_name)
 
 
+class RegistrationView(View):
+    def get(self, request):
+        form = CreateUserForm()
+        context = {'form': form}
+        return render(request, 'registration.html', context=context)
 
+    def post(self, request):
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account was created for {username}')
+            return redirect('login')
+
+        context = {'form': form}
+        return render(request, 'registration.html', context=context)
+
+class LoginView(View):
+    def get(self, request):
+        context = {}
+        return render(request, 'login.html', context=context)
